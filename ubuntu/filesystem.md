@@ -1,0 +1,17 @@
+When go to root directory, often see these directories `bin`, `dev`, `etc`, `home`, `install`, `lib`, `mnt`, `proc`, `root`, `tmp`, `user`, `usr`, `var`. 
+- `/bin`: short for binaries, where many essential system programs inside. Binaries is a program translated (compiled) from code, say C, into binary (1s and 0s)
+- `/dev`: short for device drivers, they are used to access system devices and resources, such as disk drivers, modems, memory. E.g., as you read data from a file, you can read input from mouse by accessing `/dev/mouse`
+- `/etc`: contains miscellaneous system config files, include `/etc/passwd` (the user database)
+- `/home`: user's home directories, e.g., `/home/larry`: is the home dir for the user "larry"
+- `/lib`: contains shared libary images, these files contain code which many programs share in common. Instead of each program containing its own copy of shared routines, they are all stored in one common place, in `/lib`, this makes executable files smaller, and saves space on your system
+- `/tmp`: temporary file
+- `/usr`: it contains a number of subdirectories which in turn contain some of the most important and useful programs and config files used on the system
+- `/usr/bin`: is the real warehouse for software on any UNIX system. 
+- `/usr/include`: contains include files fot the C compiler. These files (most of which end in `.h`) declare data structure names, subroutines, and constants used when writing programs in C. 
+- `/usr/g++include`: contains include files for the C++ compiler
+- `/usr/lib`: contains static libaray equivalents to the files found in `/lib`. When compile a program, the program is linked with the libraries found in `/usr/lib`, which then directs the program to look in `/lib` when it needs the actual code in the library. 
+- `/usr/local`: contains various programs and files not essential to the system
+- `/usr/src`: contains the source code (uncompiled) for various programs
+- `/var`: holds directories that often change in size or tend to grow
+- `/var/adm`: contains various files of interest to the system admin
+- `/var/spool`: contains files which are to be spooled to another program. E.g., if your machine is connected to a network, incoming mail will be stored in `/var/spool/mail`, until you read or delete it, Outgoing and incoming news articles may be found in `/var/spool/news`
