@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfChat="clr-namespace:Syncfusion.XForms.Chat;assembly=Syncfusion.SfChat.XForms"
+             xmlns:local="clr-namespace:Aqua.VIC.Mobile.App.Views.Chat"
+             xmlns:viewModel="clr-namespace:Aqua.VIC.Mobile.App.ViewModels.Chat" xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms" xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             x:Class="Aqua.VIC.Mobile.App.Views.Chat.ChatMessagePage"
+             BackgroundImage="ChatMessageBackground.png"
+             >
+
+    <!--<ContentPage.BindingContext>
+        <viewModel:ChatMessageViewModel/>
+    </ContentPage.BindingContext>-->
+
+
+    
+    <ContentPage.Content>
+        <sfChat:SfChat x:Name="sfChat"
+                       Messages="{Binding Path=Messages}"
+                       CurrentUser="{Binding Path=CurrentUser}"
+                       SendMessageCommand="{Binding SendMessageCommand}"
+                       ShowOutgoingMessageAvatar="True"
+                       ShowIncomingMessageTimestamp="True"
+                       IncomingMessageTimestampFormat="yyyy-MM-dd hh:mm:ss tt"
+                       OutgoingMessageTimestampFormat="yyyy-MM-dd hh:mm:ss tt"/>
+        
+ 
+    </ContentPage.Content>				   
+</ContentPage>
