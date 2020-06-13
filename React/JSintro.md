@@ -81,3 +81,7 @@ function add(){
     }
     return sum;
 }
+
+- === vs ==
+    - ===: equal values and equal type
+    - ==: equal to 

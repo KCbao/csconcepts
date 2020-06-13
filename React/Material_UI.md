@@ -383,6 +383,36 @@ Similar to switch, also wrapped by `<FormControlLabel>`,  but now `<FormGroup>` 
 
 ```
 
+### Table sorting and selecting
+```
+{stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index)
+```
+- `slice`: to slice table by rows per page, and then `map` each row to index
+
+```
+<TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+```
+- `count`: how many total rows
+- `rowsPerPage`: state of rowsPerPage
+
+I copied the entire code for table sorting and selecting, save it to "EnhancedBSMDSTable.js". And done the following things
+1. change "EnhancedTableHead" to "EnhancedBSMDSTable"
+2. change "rows" to "props.rows" as we are gonna pass data in as props
+3. in "Manifestdata.js" import "EnhancedBSMDSTable" and build a block in return as `<EnhancedBSMDSTable rows={Rows}>` where 
+Rows are our table content initialized in "Manifestdata.js"
+4. set all id in `const headcells` and also in `<TableCell>`
+5. in `<TableCell key={headCell.id}>`, change `align={numeric....}` to `align="center"`
+6. you can hide sort icon and let it show only when you click the header by adding `<TableSortLabel hideSortIcon ...>` in `TableSortLabel`
 ## Select
 use for one or more options
 1. `import {Select, MenuItem} from "@material-ui/core"`;
@@ -501,7 +531,7 @@ data:..., status: 200, blablabla
 ```
 that shows your axios actually works
 
-### Circular Progress: a Circular spinner
+## Circular Progress: a Circular spinner
 Idea: set up a progress function outputs a degree value show the circular degrees, so it will indicate progress
 
 1. set up a loading state `const [loading, setLoading] = React.useState(false)`
@@ -525,7 +555,7 @@ const onConfirm = () =>{
 </Button>
 ```
 
-### Snackbars
+## Snackbars
 A note show in the window, we want to use it at below scenario: when click the button, it sends HTTP GET request to workflow manager, when response is "Success", snackbar pops out and shows that "Request is success". If response is "Error", snackbar pops out and shows "need to send again"
 1. `open`: if open snackbar, `message`: message shown on snackbar, `backgroundColor`: color of snachbar
 `const [sentMsg, setSentMsg] = React.useState({open:false, message:"", backgroundColor:""})`
@@ -563,5 +593,103 @@ const onConfirm = () =>{
 }
 ```
 
+## Menus
+-  whether or not menu windows is poped out is controlled by `open`, if `anchorEl` is there, `Boolean(anchorEl)` is true, and if `anchorEl` is null, `Boolean(anchorEl)` is false
+- `onClose` handles `handleClose` function to change state of `anchorEl`
+- `keepMounted`: tell the children element of the menu (our menu items) stay mounted on the DOM, whether or not it is visible on the screen, suitable on search engine optimization that you don't want your info to dissapear
+- `id`: set id to this menu, `aria-control`: control web access bility and people who are broswing using their special device that whether there is a menu screen options poped up so they can read off the options. To that effect, we set `aria-control` equal to the menu item that it is managing, or the button is triggering. `id` will link button and menu item it is managing together. 
+- `aria-haspopup`="true": control web access bility and people who are broswing using their special device to be aware that this button is triggered to a pop up menu
+
+```
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
+export default function SimpleMenu() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <div>
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+        Open Menu
+      </Button>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Logout</MenuItem>
+      </Menu>
+    </div>
+  );
+}
+```
+
+Selected Menu
+- `selectedIndex` keep track of the item we selected last
+- add below mapping function
+```
+
+ {options.map((option, index) => (
+          <MenuItem
+            key={option}
+            disabled={index === 0}
+            selected={index === selectedIndex}
+            onClick={(event) => handleMenuItemClick(event, index)}
+          >
+            {option}
+```
+Cutomize Menu
+```
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
+```
+- `focus` means whenever this MenuItem is clicked on
+- `& .MuiListItemIcon-root, & .MuiListItemText-primary'`: JSS points to any listitemIcon inside selected item 
+- `Mui` is a class specified in material ui for us to overwrite any default material ui styles
+
+Want menu to appear when mouse hover on tab rather than click and add navigation in
+- change `onClick` in Tab to `onMouseOver`
+- also you want menu to dissapear when mouse is not around menu, to do that, add `MenuListProps={{onMouseLeave:handleClose}}` in Menu, not in Tab, actually you can do similar stuff in other material components, `MenuListProps` is a prop in Menu, and we set it equal to a javascript function with an object inside `{onMouseLeave:handleClose}`: set `onMouseLeave` prop to `handleClose` function so we can properly track the right anchor element
+- add `component {Link} to ` to add navigation in
+- `onClick={()=>{handleClose(); props.setValue(3)}}`: upon click the menu item, you can do multiple things, first thing is to `handleClose`, second thing is to `setValue` so that correct tab will be highlighted. 
+```
+ <Tab
+        aria-owns={anchorEl ? "support-menu" :undefined}
+        aria-haspopup={anchorEl ? "support-menu" :undefined}
+        onMouseOver={event=> handleClick(event)}
+      >
+ <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        MenuListProps={{onMouseLeave:handleClose}}
+      >
+    <MenuItem component={Link} to="/contactUs" onClick={()=>{handleClose(); props.setValue(3)}}>contact us</MenuItem>
+</Menu>
+```
 ### REM vs PX
 if want absolute position, use px for pixel units, if want its location to relative to your device, use rem (responsive units)
