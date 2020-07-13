@@ -945,6 +945,18 @@ add `exact` means only path is exactly equals to `/`, it will render, without `e
 this is `render` is usually good for short JSX
 - `<Route path="/" exact component={ManifestData}>`: with this `componenent` method, we could pass in a component to render
 
+### Add auto-scroll to the Top
+```
+import React, {useEffect} from 'react';
+
+export default function FilterSpec(){
+    useEffct(()=>{
+        window.scrollTo(0,0);
+    });
+}
+
+```
+
 ### Use Link to switch pages
 Use previous set up with `href`, every time it routes, browser will have to re-load. After change to link, you won't see refresh cursor on browser when switching pages. React just render the parts that needed to be renders without loading a new page, so the state remains the same
 ```
@@ -970,3 +982,109 @@ Link will auto-create `href` anchor. `search`: query in URL e.g., `www.google.co
 
 ### React.Component
 no need to import any lib, just wrap it around block to represent as a big `<div>` around
+
+## Add React Developer Tool in Chrome
+- search react developer tool and add to chrome extension
+- in "Inspect", under "Components"
+
+## Write Ajax objects
+### Method 1: use JS XMLHTTPRequests
+could be cumbersome, because you need to configure all the headers
+
+### Method 2: Axios: can be used in any JS code
+must easier approach
+- httpRequest to update data can be called as "side-effect"
+- "axios" works asynchronisis, i.e., it doesn't finish immediately, it needs to go the server to fetch data etc. But JS executes your code synchronisisly, so it will execute line by line without stop. Thus 
+`const response = axios.get(blablabla)` won't work, because it will immediately execute next line after this, and it won't pause until "axios.get" is finished, so it won't store response in the response constant here. 
+- "Promise": a default JS object introduced in ES6, and "axios.get" returns a "Promise" object
+- `.then`: receives a function, input response from Promise, 
+- 
+```
+axios.get("http:/manager")
+     .then(response => {
+         const posts = response.data.slice((0,4))
+         <!-- only take first 4 from data attribute -->
+        const updatedPosts = posts.map(post =>{
+            return {
+                ...post, 
+                author: 'Max'
+            }
+        });
+        this.setState({posts: updatedPosts})
+     })
+
+```
+- update Posts by adding one more attribute to create a new JSON
+
+## useEffect
+it get called every time we re-render the page
+
+## Component Lifecycle
+
+### Class Component
+#### pipeline lifecycle initialized
+Note: side-effects: e.g., http requests, store data locally in browser
+1. constructor(props):
+    - default EC6 class feature
+    - for initialization, call super(props)
+    - do: set up state
+    - don't: cause side-effects
+2. `static getDerivedStateFromProps(props,state)`
+    - will not be used too often in real world
+    - return new state
+    - added to React 16.3
+    - whenever your state change, you can sync state
+    - don't: cause side-effects
+
+3. render()
+    - structure JSX codes
+    - don't: cause side-effects: like http requests
+
+4. render child components
+5. componentDidMount()
+    - write inside class component, outside of render
+    - do: cause side-effects
+    - don't: update states (becuz it will trigger re-render) unless it's under http promise then block
+
+`componentWillMount`: 
+- rarely used, could be used inproperly, it is insecure, will be removed in the future
+- used to prepare your state
+
+#### component lifecycle- update
+1. `static getDerivedStateFromProps(props,state)`
+2. shouldComponentUpdate(nextprops, nextState):
+    - must return "true" or "false": true is allowing react to continue updating, false is not
+    - allow you to cancel updating process
+    - don't: do side-effects
+3. render()
+4. update child component of current component
+5. getSnapshotBeforeUpdate(prevProps, prevState)
+    - not used too much
+    - last-min DOM ops: e.g., get current scrolling position
+    - don't: cause side-effects
+6. componentDidUpdate()
+    - do: do side-affects
+    - don't: update state (cause re-render)
+
+`componenetWillUpdate`: also will be removed in the future
+
+
+## Function Component Lifecycle
+- useEffect
+    - a react hook
+    - it is hook that you could add to any of your functions
+    - it does pretty much everything in lifecycle in class component
+    - you could have many useEffect in your component
+    - `useEffect(()=>{}, [props.person])` takes in a function that will run in every time rendering, i.e., it will run in every update, second arg is an array tells useEffect when to execute so that it won't run in every time rendering, e.g., this useEffect will render only if props.person state is changed, empty [] means only render in first time, same to 
+
+
+
+### Casie's observation
+1. state variable set in parent component, when changed by child component, will cause child component re-render
+2. 
+
+## Add space between buttons
+- &nbsp; in JSX
+
+## Handler Method
+- for my experience, handler method normally used to modify state, so it contains some manipulations lines plus setState line. Normally for best practice, people like to pass handler to child component rather than setState hook. 

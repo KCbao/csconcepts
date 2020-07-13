@@ -85,3 +85,16 @@ function add(){
 - === vs ==
     - ===: equal values and equal type
     - ==: equal to 
+```
+## Array
+- `filter()`: The filter() method creates a new array with all elements that pass the test implemented by the provided function. e.g., `result = words.filter(word => word.length > 6);`, new result is an array of word in words array s.t. word length is greater than 6. 
+- `array.push(item)`: add new item into array
+- `array1.concat(array2)`: concatenate two arrays
+
+
+## Object
+- `object.hasOwnProperty("property name")`: return if the object contains this property
+- `object.property`: return false if this property is empty
+
+## Date
+- dateformat: yy, MM (month), dd (date), hh (hour), mm(minutes), ss(seconds), a (indicate am or pm)

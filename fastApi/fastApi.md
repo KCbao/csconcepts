@@ -47,3 +47,11 @@ It will
 - could either input the 3-digit code, or `from fastapi import status`, then `status_code=status.HTTP_201_CREATED)
 
 ## Additional Status Codes
+
+## Background tasks
+Define the background tasks that needs to be run after returning a response
+1. `from FastAPI import BackgroundTasks`
+2. create task function
+can be async def or normal def
+3. add the backgound task and its required arguments using `.add_task()`
+    - `.add_task()`: it receives as arguments 1) a task function to be run in the background 2. Any sequence of arguments that should be passed to the task function in order 3) any keyword args that should be passed to the task function

@@ -486,6 +486,12 @@ onChange={event => setOrigTextMsg(event.target.values)}>
 
 </TextField>
 ```
+Attribute of TextField
+- "select": turn textfield into selection box
+- `InputProps={{startAdornment: <InputAdorment position="start">Kg</InputAdorment>}}`: position: how your inputAdornment positioned. 
+- "color": change the highlight color background of text box
+- "fullWidth": so the text field will span full width of the container
+
 ## Relative Length
 - em: relative to the font-size of the element (2em means 2 times the size of the current font)
 - rem: relative to font-size of the root element

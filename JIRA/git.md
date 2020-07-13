@@ -1,19 +1,24 @@
 
 ## Create a feature branch and merge to master
-- `git branch <new branch name>`: create a new branch
-- `git checkout <branch name>`: switch to branch "branch name"
-- `git pull origin master`: pull from master branch to whatever branch you are at
--  if at this point, you have errors like "you have existing local changes, cannot pull because master branch will overwrite your local changes"
+1. `git branch <new branch name>`: create a new branch
+2. `git checkout <branch name>`: switch to branch "branch name"
+3. `git pull origin master`: pull from master branch to whatever branch you are at
+4.  if at this point, you have errors like "you have existing local changes, cannot pull because master branch will overwrite your local changes"
     1. `git add <add file that has changes>`: move changes from "workspace" to "index"
     2. `git commit -m "add comments"`: move changes from "index" to "local repository"
-    3. `git pull origin master`: from "remote repository" to "workspace"
-- now you might see conflicts, and also will show "<branch name>/merging": 
+    3. `git pull origin master`: from "remote repository" to "workspace", you will see in terminal window saying you need to edit commit to see why this commit is necessary, you
+        - press "i" to edit
+        - write your comments
+        - press "etc" (escape)
+        - write ":wq" (write and quit)
+        - then press enter
+5. now you might see conflicts, and also will show "<branch name>/merging": 
     1. go the the file with conflicts
     2. save the change you want to make, delete all >>>, ===, <<<, and save the file
     3. `git add` and `git commit`
-- finally, `git pull origin master` will show no error
-- Make more changes, and `git add`, `git commit`, then finally you want to push changes from "local repository" to "remote repository", you send `git push origin HEAD`: a handy way to push the current branch to the same name on the remote
-- Go to GitLab, click "Merge Request", then "New Merge Request", and file you request, also "assign viewee", then submit "Merge Request"
+6. finally, `git pull origin master` will show no error
+7. Make more changes, and `git add`, `git commit`, then finally you want to push changes from "local repository" to "remote repository", you send `git push origin HEAD`: a handy way to push the current branch to the same name on the remote
+8. Go to GitLab, click "Merge Request", then "New Merge Request", and file you request, also "assign viewee", then submit "Merge Request"
 
 ## Delete branch after merge
 Usually you want your feature branch to be deleted after merge. (You create a new feature branch for each feature), and you 
