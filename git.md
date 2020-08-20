@@ -20,6 +20,8 @@
 7. Make more changes, and `git add`, `git commit`, then finally you want to push changes from "local repository" to "remote repository", you send `git push origin HEAD`: a handy way to push the current branch to the same name on the remote
 8. Go to GitLab, click "Merge Request", then "New Merge Request", and file you request, also "assign viewee", then submit "Merge Request"
 
+For GitHub, step 8 is  `git checkout master`, `git merge <this branch name>`, `git push origin master`
+
 ## Delete branch after merge
 Usually you want your feature branch to be deleted after merge. (You create a new feature branch for each feature), and you 
 delete on GitLab GUI, but locally when you `git branch -a` it still shows up. Because there is a difference between a remote branch and a branch that exists in the remote repository. You need to update the list of remote branch using `git fetch --prune`: `--prune` will let you remove remote branches that no longer have a branch on the remote repository. (If you just do `git fetch` it will just update remote branches, but does not remove)
@@ -37,3 +39,10 @@ delete on GitLab GUI, but locally when you `git branch -a` it still shows up. Be
 ## Remote Branch vs Branch on Remote repository
 - Remote branch (when you `git branch -a`, it shows under "remote/origin/<branch name>"): are local branches that map to branches of the remote repository. 
 - branch `test` on remote repository will show as remote branch `/origin/test`
+
+## Git pull
+When you download other ppl's repo and make changes to it, also that person is updating the repo, how to git pull to update?
+
+1. `git checkout -b casie`: create a new branch
+2. `git add` and `git commit` your local changes to this branch casie
+3. `git branch master` switch to master branch, then `git pull origin/master` to pull from master branch
