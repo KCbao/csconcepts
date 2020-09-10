@@ -45,4 +45,8 @@ When you download other ppl's repo and make changes to it, also that person is u
 
 1. `git checkout -b casie`: create a new branch
 2. `git add` and `git commit` your local changes to this branch casie
-3. `git branch master` switch to master branch, then `git pull origin/master` to pull from master branch
+3. `git branch master` switch to master branch, then `git pull origin master` to pull from master branch
+
+## Git Config
+- `git config --list`: list all configurations
+- `git config --global http.sslCAPath /path/to/mda/mda-cert-bundle.cer`

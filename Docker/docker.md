@@ -58,7 +58,7 @@ Allows fast and efficient deployment
 5. `docker images`: a list of images you have 
 6. `docker pull`: pull images, you could add tag to pull specific version, by default it pulls latest version
 6. `docker rmi <image id>`: to remove the image, image id can be found in `docker images`
-7. `docker ps -a`: list all available container, `docker ps`: list all running containers
+7. `docker ps -a`: list all available container, `docker ps`: list all running containers, `ps`: stands for process status
 7. `docker start <container id/name>`: to start container
 8. `docker stop <container id/name>`
 9. `docker stats`
@@ -67,6 +67,7 @@ Allows fast and efficient deployment
 12. `docker container run <imageid:tag>`: if this image doesn't exist, it will auto-pull from dockerhub
 13. `docker container rm [container_id]`: remove container
 14. `docker run --name <container name> -it <image name>`: -it will give you an iterative shell for your image. e.g., your image is ubuntu, it will open you a ubuntu terminal 
+15 `docker-compose build`: If you change a service’s Dockerfile or the contents of its build directory, run docker-compose build to rebuild it.
 
 ## DockerFiles
 - DockerFile is a text file with instructions used to build docker image
@@ -81,3 +82,54 @@ Steps to create a dockerfile
 
 - build image from Dockerfile. `docker build <path of dockerfile>` or `docker build -t <imageName:tagName> <path of dockerfile>`
 - run image `docker run <imageName:tagName>`
+
+### Commands in Dockerfile
+`RUN echo xxxx`: print xxx
+
+`FROM <ubuntu>`: base image, here means you will be working on a linux-ubuntu machine
+
+`ENV <key> <value>`: used to set the environment variables. These variables consist of "key-value" pairs which can be accessed within the container by scripts and applications. e.g., `ENV SERVER_WORKS 4` means setting SERVER_WORKS to 4. 
+
+`WORKDIR <path>`: Sets the working directory for any RUN, CMD, ENTRYPOINT, COPY, and ADD instructions that follow it.
+
+`EXPOSE <port num>`: used to associate a specific port to enable networking between the running process inside the container and the outside world. 
+
+`VOLUME ["/dir_1", "/dir_2"]`: used to enable access from ur container to directories on the host machine. This "dir_1, dir_2" may store your app.py, and these dirs can be used by different containers built by this image. 
+
+`ADD <src> <des>`
+
+### Build Docker Image out from Dockerfile
+`docker build -t <name of docker image> <path to Dockerfile>`: e.g., `docker build -t mypythonapp .`: where Dockerfile is stored under current directory "."
+`docker images`: verify image "mypythonapp" is installed
+`docker run -p <port number of host>:<port number of container> --name=<container name> <image name>`: spin up a container based on this image, and container port will be mapped to host port, we will view from host port to see the content of container. 
+
+During `docker build`, it will exectute docker commands in Dockerfile line by line. Each line actually is building an intermediate container, each itermediate container has an id, and this intermediate container gets removed after completing this layer's construction. If docker build has error and interrupted in the middle, then when you `docker image ls`, you will see this intermediate layer's id. 
+
+## build jupyter notebook to test you have all python dependencies installed
+1. in requirements.txt, add "jupyter" (stands for pip install jupyter)
+2. in Dockerfile, `CMD ["jupyter", "notebook", "--port=8890", "--no-browser", "--ip=0.0.0.0", "--allow-root"]`, then when you docker build image and run a container of this image, it will auto-open a jupyter notebook browsering web. 
+
+## Mutistage build
+ You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image.
+
+ Optionally COPY accepts a flag --from=<name|index> that can be used to set the source location to a previous build stage
+
+ - `docker-compose up -d`: just change env variables in your docker-compose file, this command will update your variables without rebuild images
+
+ ### docker attach
+ `docker attach <container>`: to attach any input/output, error streams to a running container. Similar to `docker logs <container>`. 
+
+ ### docker save -o <output file name>.tar <image name>`
+Save the image, -o means 'output'
+
+### docker load -i <file name>.tar
+-i: "input"
+
+### docker-compose up
+build images and start containers of images declared in docker-compose.yml
+
+### docker-compose start/stop
+start and stop the existing images/containers. 
+
+### docker image tag <image id> <new name>
+change name, in `docker images`, you'll see both the old name image and new name image, both refer to the same image id. 

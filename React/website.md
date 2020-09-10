@@ -45,7 +45,7 @@ Ref: [Your first week with React](https://books.google.ca/books?id=yJc9DwAAQBAJ&
 
 
 ## React server and Flask server
-In dev mode, in order to run the application, I have to run the react server with npm start, and flask server with Python. His question is to serve the react build folder with flask. 
+In dev mode, in order to run the application, I have to run the react server with npm start, and flask server with Python. His question is to serve the react build folder with flask. In production mode, I want to use Nginx to serve my website. 
 
 
 ## API
