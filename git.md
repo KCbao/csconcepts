@@ -50,3 +50,7 @@ When you download other ppl's repo and make changes to it, also that person is u
 ## Git Config
 - `git config --list`: list all configurations
 - `git config --global http.sslCAPath /path/to/mda/mda-cert-bundle.cer`
+
+## Reset
+Reset the state of the repository to the previous commit, and it will discard all local changes
+`git reset --hard origin/<branch_name>`

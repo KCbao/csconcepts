@@ -83,6 +83,8 @@ const ws = new Websocket("ws://localhost:8080/guiserver")
 ```
 it will connect to server run at port 8080 with endpoint `/guiserver`. If want to use nginx to proxy pass, use `const ws = new Websocket("ws://localhost:3001/guiserver")`, where react app docker container is running on port `3001:3000`, open port 3001. And inside `nginx.conf`, add proxy_set_header and proxy_http_version enable NGINX to properly handle WebSocket protocol. `proxy_http_version` must be 1.1, not 1.0. 
 
+- To establish a Websocket connection (a.k.a Websocket handshake), this process starts with client sending a regular HTTP request to the server, with an "Upgrade header" included in this request to inform the server that the clients wish to establish a Websocket connection. In this way, Websockets allow both HTTP and Websocket protocols to be communicated over the same port, and the server can handle a standard HTTP request connection as well as an HTTP Upgrade request. 
+
 ```
 map $http_upgrade $connection_upgrade{
     default upgrade; 
@@ -114,3 +116,4 @@ server{
 ```
 
 - socket.io is not a Websocket implementation, but mostly used for websocket purpose. If want to use socket.io to do websocket, then both server and client need to use socket.io, otherwise they cannot communicate. For example, if React client is using socket.io, fastapi server is using plain Websocket, they cannot talk. That is because socket.io server requires both the websocket protocol for connection initiation, and the socket.io format (additional metadata) on top of it. E.g., client sent url `ws://localhost/guiserver` reaches backend server will become `ws://localhost/guiserver/?EIO=3&transport=polling&t=NHsNcrh`. 
+- JS Websocket vs socket.io: socker.io is good for broadcast. For example, when multiple clients connect to server, if use JS Websocket, when event triggered, server will send message to client one by one. But if use socket.io, then all clients will be notified at the same time, that's called broadcasting. 
